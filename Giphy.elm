@@ -182,8 +182,8 @@ view : Model -> Html Msg
 view model =
     div [ class "wrapper" ]
         [ alertView model
-        , div [ class "container-fluid" ]
-            [ div [ class "jumbotron-fluid" ] [ imagesView model ]
+        , div [ class "container" ]
+            [ div [ class "jumbotron" ] [ imagesView model ]
             ]
         ]
 
@@ -217,19 +217,28 @@ imagesView model =
 
 imageView : Image -> Pagination -> Html Msg
 imageView image pagination =
-    div [ class "row" ]
-        [ div [ class "col-sm" ]
-            [ a [ href image.originalUrl, target "_blank", rel "noreferrer" ]
-                [ img [ src image.fixedHeight ] []
+    div []
+        [ div [ class "row" ]
+            [ div [ class "col-sm" ]
+                [ a
+                    [ class "img-fluid img-thumbnail mx-auto d-block"
+                    , href image.originalUrl
+                    , target "_blank"
+                    , rel "noreferrer"
+                    ]
+                    [ img [ src image.fixedHeight ] []
+                    ]
                 ]
-            , div [ class "row" ]
-                [ nav [ class "controls" ]
+            , div [ class "col-sm" ] [ imageDetails image ]
+            ]
+        , div [ class "row" ]
+            [ nav [ class "controls" ]
+                [ div [ class "btn-group" ]
                     [ prevButton pagination
                     , nextButton pagination
                     ]
                 ]
             ]
-        , div [ class "col-sm" ] [ imageDetails image ]
         ]
 
 
@@ -260,7 +269,13 @@ nextButton pagination =
 navigation : Msg -> Bool -> String -> Html Msg
 navigation msg disable caption =
     div [ class "col-sm" ]
-        [ button [ class "btn btn-light", onClick msg, disabled disable ] [ text caption ] ]
+        [ button
+            [ class "btn btn-primary"
+            , onClick msg
+            , disabled disable
+            ]
+            [ text caption ]
+        ]
 
 
 imageDetails : Image -> Html Msg
